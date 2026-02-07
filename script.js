@@ -1,33 +1,52 @@
 const game = new Chess();
 
+/* 🔊 Sounds */
 const sounds = {
   move: new Audio("sounds/move.mp3"),
   capture: new Audio("sounds/capture.mp3"),
+  castling: new Audio("sounds/castling.mp3"),
   check: new Audio("sounds/check.mp3"),
   checkmate: new Audio("sounds/checkmate.mp3")
 };
 
 function playSound(type) {
-  if (sounds[type]) {
-    sounds[type].currentTime = 0;
-    sounds[type].play();
-  }
+  const sound = sounds[type];
+  if (!sound) return;
+  sound.currentTime = 0;
+  sound.play();
 }
 
-const board = Chessboard('board', {
+/* ♟️ Board */
+const board = Chessboard("board", {
+  position: "start",
   draggable: true,
-  position: 'start',
+
+  onDragStart: function (source, piece) {
+    // Stop moving after game over
+    if (game.game_over()) return false;
+
+    // Only move current player's pieces
+    if (
+      (game.turn() === "w" && piece.startsWith("b")) ||
+      (game.turn() === "b" && piece.startsWith("w"))
+    ) {
+      return false;
+    }
+  },
 
   onDrop: function (source, target) {
     const move = game.move({
       from: source,
       to: target,
-      promotion: 'q'
+      promotion: "q"
     });
 
-    if (move === null) return 'snapback';
+    if (move === null) return "snapback";
 
-    if (move.captured) {
+    /* 🎵 Sound priority */
+    if (move.flags.includes("k") || move.flags.includes("q")) {
+      playSound("castling");
+    } else if (move.captured) {
       playSound("capture");
     } else {
       playSound("move");
@@ -35,7 +54,7 @@ const board = Chessboard('board', {
 
     if (game.in_checkmate()) {
       playSound("checkmate");
-      alert("CHECKMATE!");
+      setTimeout(() => alert("♚ Checkmate!"), 100);
     } else if (game.in_check()) {
       playSound("check");
     }
