@@ -3,36 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Chess Analysis</title>
+    <title>Chess Simulator V2 - Analysis Mode</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
 </head>
 <body>
-    <div class="main-layout">
-        <div class="analysis-panel">
-            <div id="eval-bar"><div id="eval-fill"></div></div>
-            <div id="myBoard"></div>
+    <div class="main-container">
+        <div id="eval-bar">
+            <div id="eval-fill"></div>
         </div>
 
-        <div class="info-panel">
-            <select id="lang-select">
-                <option value="en">English</option>
-                <option value="vi">Tiếng Việt</option>
-                <option value="zh">中文</option>
-                <option value="ja">日本語</option>
-                <option value="ko">한국어</option>
-                <option value="es">Español</option>
-                <option value="pt">Português</option>
-                <option value="fr">Français</option>
-                <option value="km">Khmer</option>
-                <option value="mm">Burmese</option>
-            </select>
+        <div id="myBoard"></div>
+
+        <div class="side-panel">
+            <h2 id="ui-title">Analysis</h2>
             
-            <h2 id="ui-title">Chess Analysis</h2>
+            <div class="language-section">
+                <select id="lang-select">
+                    <option value="en">English</option>
+                    <option value="vi">Tiếng Việt</option>
+                    <option value="km">ភាសាខ្មែរ (Khmer)</option>
+                    <option value="my">မြန်မာဘာသာ (Burmese)</option>
+                    <option value="zh">中文</option>
+                    <option value="ja">日本語</option>
+                    <option value="ko">한국어</option>
+                    <option value="es">Español</option>
+                    <option value="pt">Português</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+
             <div id="status">White to move</div>
-            <div id="engine-status">Engine: Loading...</div>
-            <button onclick="undoMove()" id="ui-undo">Undo Move</button>
-            <button onclick="game.reset(); board.start();" id="ui-reset">Reset</button>
+            <div id="engine-eval">Engine: Loading...</div>
+
+            <div class="button-group">
+                <button onclick="undoMove()" id="ui-undo">Undo</button>
+                <button onclick="resetGame()" id="ui-reset">Reset</button>
+            </div>
+
+            <hr>
+            <div class="emoji-bank">
+                <div class="emoji-row">White: ♚ ♛ ♝ ♞ ♜ ♟</div>
+                <div class="emoji-row">Black: ♔ ♕ ♗ ♘ ♖ ♙</div>
+            </div>
         </div>
     </div>
 
